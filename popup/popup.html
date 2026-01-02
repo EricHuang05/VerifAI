@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Credibility Checker</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Credibility Checker</h1>
+    
+    <button id="analyze-btn" class="analyze-btn">
+      <span class="btn-text">Analyze Page</span>
+      <span class="spinner hidden"></span>
+    </button>
+
+    <div id="results" class="results hidden">
+      <div id="verdict" class="verdict"></div>
+      <div id="explanation" class="explanation"></div>
+      <div id="issues" class="issues"></div>
+    </div>
+
+    <p id="error" class="error hidden"></p>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
