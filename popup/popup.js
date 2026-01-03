@@ -1,8 +1,9 @@
 const analyzeBtn = document.getElementById('analyze-btn');
 const btnText = analyzeBtn.querySelector('.btn-text');
-const spinner = analyzeBtn.querySelector('.spinner');
 const resultsDiv = document.getElementById('results');
 const verdictDiv = document.getElementById('verdict');
+const verdictIcon = verdictDiv.querySelector('.verdict-icon');
+const verdictText = verdictDiv.querySelector('.verdict-text');
 const explanationDiv = document.getElementById('explanation');
 const issuesDiv = document.getElementById('issues');
 const errorP = document.getElementById('error');
@@ -33,7 +34,7 @@ analyzeBtn.addEventListener('click', async () => {
       throw new Error('Could not extract article content. Is this a news article?');
     }
 
-    // Send to background script for OpenAI analysis
+    // Send to background script for API analysis
     const response = await chrome.runtime.sendMessage({
       action: 'analyzeCredibility',
       data: articleData
@@ -55,8 +56,8 @@ analyzeBtn.addEventListener('click', async () => {
 
 function setLoading(loading) {
   analyzeBtn.disabled = loading;
-  btnText.textContent = loading ? 'Analyzing...' : 'Analyze Page';
-  spinner.classList.toggle('hidden', !loading);
+  btnText.textContent = loading ? 'Analyzing...' : 'Analyze This Page';
+  analyzeBtn.classList.toggle('loading', loading);
 }
 
 function displayResults(response) {
@@ -65,8 +66,9 @@ function displayResults(response) {
   const isCredible = response.credible;
   
   // Set verdict
-  verdictDiv.textContent = isCredible ? '✓ Credible' : '⚠ Not Credible';
   verdictDiv.className = `verdict ${isCredible ? 'credible' : 'not-credible'}`;
+  verdictIcon.textContent = isCredible ? '✓' : '!';
+  verdictText.textContent = isCredible ? 'Credible' : 'Not Credible';
   
   // Set explanation
   explanationDiv.textContent = response.explanation || '';
@@ -74,10 +76,11 @@ function displayResults(response) {
   // Set issues (if any)
   issuesDiv.innerHTML = '';
   if (response.issues && response.issues.length > 0) {
-    response.issues.forEach(issue => {
+    response.issues.forEach((issue, index) => {
       const issueEl = document.createElement('div');
       issueEl.className = 'issue-item';
       issueEl.textContent = issue;
+      issueEl.style.animationDelay = `${(index + 1) * 0.1}s`;
       issuesDiv.appendChild(issueEl);
     });
   }

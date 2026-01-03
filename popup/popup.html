@@ -3,25 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Credibility Checker</title>
+  <title>VerifAI</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
   <div class="container">
-    <h1>Credibility Checker</h1>
-    
-    <button id="analyze-btn" class="analyze-btn">
-      <span class="btn-text">Analyze Page</span>
-      <span class="spinner hidden"></span>
-    </button>
+    <header class="header">
+      <div class="logo">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h1>VerifAI</h1>
+      </div>
+      <p class="tagline">AI-Powered Credibility Checker</p>
+    </header>
 
-    <div id="results" class="results hidden">
-      <div id="verdict" class="verdict"></div>
-      <div id="explanation" class="explanation"></div>
-      <div id="issues" class="issues"></div>
-    </div>
+    <main class="main">
+      <button id="analyze-btn" class="analyze-btn">
+        <span class="btn-content">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="btn-text">Analyze This Page</span>
+        </span>
+        <span class="spinner"></span>
+      </button>
 
-    <p id="error" class="error hidden"></p>
+      <div id="results" class="results hidden">
+        <div class="result-card">
+          <div id="verdict" class="verdict">
+            <span class="verdict-icon"></span>
+            <span class="verdict-text"></span>
+          </div>
+          <div id="explanation" class="explanation"></div>
+          <div id="issues" class="issues"></div>
+        </div>
+      </div>
+
+      <p id="error" class="error hidden"></p>
+    </main>
+
+    <footer class="footer">
+      <p>Powered by AI • Results may vary</p>
+    </footer>
   </div>
 
   <script src="popup.js"></script>
