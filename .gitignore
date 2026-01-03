@@ -1,1 +1,24 @@
+# API keys - IMPORTANT!
+config.js
+
+# OS files
 .DS_Store
+Thumbs.db
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Optional: if you ever add npm packages
+node_modules/
+package-lock.json
+
+# Packed extension files
+*.crx
+*.pem
+*.zip
