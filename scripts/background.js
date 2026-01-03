@@ -1,8 +1,8 @@
-// Background service worker - handles OpenAI API calls
+// Background service worker - handles Groq API calls
 
 import CONFIG from '../config.js';
 
-const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
+const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
 // Listen for messages from popup
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -17,22 +17,22 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 async function analyzeCredibility(articleData) {
-  const apiKey = CONFIG.OPENAI_API_KEY;
+  const apiKey = CONFIG.GROQ_API_KEY;
   
-  if (!apiKey || apiKey === 'your-openai-api-key-here') {
-    throw new Error('OpenAI API key not set. Add your key to config.js');
+  if (!apiKey || apiKey === 'your-groq-api-key-here') {
+    throw new Error('Groq API key not set. Add your key to config.js');
   }
 
   const prompt = buildPrompt(articleData);
 
-  const response = await fetch(OPENAI_API_URL, {
+  const response = await fetch(GROQ_API_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${apiKey}`
     },
     body: JSON.stringify({
-      model: 'gpt-4o-mini',
+      model: 'llama-3.3-70b-versatile',
       messages: [
         {
           role: 'system',
@@ -45,12 +45,14 @@ You evaluate articles based on:
 - Misleading or false claims
 - Clickbait or manipulative language
 
-Respond ONLY with valid JSON in this exact format:
+Respond ONLY with valid JSON in this exact format (no markdown, no code blocks):
 {
   "credible": true or false,
   "explanation": "A brief 1-2 sentence summary of why the article is or isn't credible",
-  "issues": ["Issue 1", "Issue 2"] // Array of specific problems found. Empty array if credible.
-}`
+  "issues": ["Issue 1", "Issue 2"]
+}
+
+The issues array should list specific problems found. Use an empty array if the article is credible.`
         },
         {
           role: 'user',
@@ -71,7 +73,7 @@ Respond ONLY with valid JSON in this exact format:
   const content = data.choices?.[0]?.message?.content;
 
   if (!content) {
-    throw new Error('No response from OpenAI');
+    throw new Error('No response from Groq');
   }
 
   // Parse the JSON response
@@ -89,9 +91,7 @@ Respond ONLY with valid JSON in this exact format:
 }
 
 function buildPrompt(articleData) {
-  let prompt = `Analyze this article for credibility:\n\n`;
-  
-  prompt += `SOURCE: ${articleData.siteName || articleData.hostname}\n`;
+  let prompt = `SOURCE: ${articleData.siteName || articleData.hostname}\n`;
   prompt += `URL: ${articleData.url}\n`;
   
   if (articleData.title) {
