@@ -1,3 +1,17 @@
+// Wait for intro animation to complete, then show main content
+document.addEventListener('DOMContentLoaded', () => {
+  const intro = document.getElementById('intro');
+  const mainContent = document.getElementById('main-content');
+
+  setTimeout(() => {
+    mainContent.classList.remove('hidden');
+  }, 800);
+
+  setTimeout(() => {
+    intro.style.display = 'none';
+  }, 1200);
+});
+
 const analyzeBtn = document.getElementById('analyze-btn');
 const btnText = analyzeBtn.querySelector('.btn-text');
 const resultsDiv = document.getElementById('results');

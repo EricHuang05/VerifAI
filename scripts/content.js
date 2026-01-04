@@ -1,7 +1,6 @@
-// Content script - extracts article content from the page
+// Extracts article content from the page
 // This is an IIFE that returns the extracted data immediately
 (() => {
-  // Common selectors for article content across news sites
   const TITLE_SELECTORS = [
     'h1[class*="headline"]',
     'h1[class*="title"]',

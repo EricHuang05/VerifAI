@@ -1,5 +1,3 @@
-// Background service worker - handles Groq API calls
-
 import CONFIG from '../config.js';
 
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
@@ -37,22 +35,22 @@ async function analyzeCredibility(articleData) {
         {
           role: 'system',
           content: `You are a fact-checking assistant that analyzes news articles for credibility. 
-You evaluate articles based on:
-- Source reputation
-- Presence of verifiable facts and citations
-- Balanced reporting vs. sensationalism
-- Logical consistency
-- Misleading or false claims
-- Clickbait or manipulative language
+                    You evaluate articles based on:
+                      - Source reputation
+                      - Presence of verifiable facts and citations
+                      - Balanced reporting vs. sensationalism
+                      - Logical consistency
+                      - Misleading or false claims
+                      - Clickbait or manipulative language
 
-Respond ONLY with valid JSON in this exact format (no markdown, no code blocks):
-{
-  "credible": true or false,
-  "explanation": "A brief 1-2 sentence summary of why the article is or isn't credible",
-  "issues": ["Issue 1", "Issue 2"]
-}
+                    Respond ONLY with valid JSON in this exact format (no markdown, no code blocks):
+                    {
+                      "credible": true or false,
+                      "explanation": "A brief 1-2 sentence summary of why the article is or isn't credible",
+                      "issues": ["Issue 1", "Issue 2"]
+                    }
 
-The issues array should list specific problems found. Use an empty array if the article is credible.`
+                    The issues array should list specific problems found. Use an empty array if the article is credible.`
         },
         {
           role: 'user',
